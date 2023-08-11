@@ -1,10 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+import { db } from './firebase';
+import { getDoc, setDoc, doc } from 'firebase/firestore';
 
 function App() {
   const [count, setCount] = useState(0);
+  useEffect(() => {
+    const getCount = async () => {
+      const documentSnapshot = await getDoc(doc(db, 'counts', '1'));
+      const result = documentSnapshot.data();
+      if (!result) return;
+      setCount(result.value);
+    };
+    getCount();
+  }, []);
+
+  const addCount = async () => {
+    try {
+      await setDoc(doc(db, 'counts', '1'), {
+        value: count + 1,
+      });
+
+      setCount(count + 1);
+    } catch (error) {
+      console.error('An error occurred while updating count:', error);
+    }
+  };
 
   return (
     <>
@@ -18,7 +41,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+        <button onClick={addCount}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
