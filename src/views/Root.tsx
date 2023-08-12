@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import MainTemplate from '../components/templates/main.template.tsx';
+import AppTemplate from '../components/templates/App.template.tsx';
 import HomeView from './Home.view.tsx';
 import CalculatorView from './Calculator.view.tsx';
 import HistoryView from './History.view.tsx';
 import NotFoundView from './NotFound.view.tsx';
+import MainTemplate from '../components/templates/Main.template.tsx';
+import AuthenticationView from './Authentication.view.tsx';
 
 const router = createBrowserRouter([
   {
@@ -11,16 +13,26 @@ const router = createBrowserRouter([
     element: <MainTemplate />,
     children: [
       {
-        index: true,
-        element: <HomeView />,
+        path: '/',
+        element: <AuthenticationView />,
       },
       {
-        path: 'calculator',
-        element: <CalculatorView />,
-      },
-      {
-        path: 'history',
-        element: <HistoryView />,
+        path: 'app',
+        element: <AppTemplate />,
+        children: [
+          {
+            index: true,
+            element: <HomeView />,
+          },
+          {
+            path: 'calculator',
+            element: <CalculatorView />,
+          },
+          {
+            path: 'history',
+            element: <HistoryView />,
+          },
+        ],
       },
       {
         path: '*',
@@ -31,11 +43,7 @@ const router = createBrowserRouter([
 ]);
 
 function Root() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default Root;

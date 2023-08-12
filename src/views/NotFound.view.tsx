@@ -5,7 +5,9 @@ function NotFoundView() {
   return (
     <Container>
       <Typography variant="h2">Not Found 404</Typography>
-      <Link to="/">Go to Home</Link>
+      <Link to="/">
+        <Typography>Go back</Typography>
+      </Link>
     </Container>
   );
 }
