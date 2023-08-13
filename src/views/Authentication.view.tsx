@@ -1,7 +1,7 @@
 import { useUser } from '../hooks/useUser.tsx';
 import { Navigate } from 'react-router-dom';
 import { Box, Button, Container, Paper, Stack, Typography } from '@mui/material';
-import { signInWithGoogle } from '../firebase';
+import { authUtils } from '../firebase/authentication';
 import Google from '@mui/icons-material/Google';
 
 function AuthenticationView() {
@@ -29,7 +29,7 @@ function AuthenticationView() {
               Sign in to use the app
             </Typography>
             <Box>
-              <Button variant="contained" onClick={signInWithGoogle} startIcon={<Google />}>
+              <Button variant="contained" onClick={async () => await authUtils.signInWithGoogle()} startIcon={<Google />}>
                 Sign in with google
               </Button>
             </Box>
