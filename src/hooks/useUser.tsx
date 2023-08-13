@@ -1,6 +1,6 @@
 import { User } from 'firebase/auth';
 import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
-import { authUtils } from '../firebase/authentication';
+import { authUtils } from '@/firebase/authentication';
 
 interface UserContextProps {
   user: User | null;

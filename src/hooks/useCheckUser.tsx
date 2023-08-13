@@ -1,4 +1,4 @@
-import { useUser } from './useUser.tsx';
+import { useUser } from '@/hooks/useUser.tsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 

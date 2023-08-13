@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AppTemplate from '../components/templates/App.template.tsx';
-import HomeView from './Home.view.tsx';
-import CalculatorView from './Calculator.view.tsx';
-import HistoryView from './History.view.tsx';
-import NotFoundView from './NotFound.view.tsx';
-import MainTemplate from '../components/templates/Main.template.tsx';
-import AuthenticationView from './Authentication.view.tsx';
+import AppTemplate from '@/components/templates/App.template.tsx';
+import HomeView from '@/views/Home.view.tsx';
+import CalculatorView from '@/views/Calculator.view.tsx';
+import HistoryView from '@/views/History.view.tsx';
+import NotFoundView from '@/views/NotFound.view.tsx';
+import MainTemplate from '@/components/templates/Main.template.tsx';
+import AuthenticationView from '@/views/Authentication.view.tsx';
 
 const router = createBrowserRouter([
   {

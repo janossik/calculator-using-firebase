@@ -1,8 +1,8 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import PageSkeleton from '../PageSkeleton';
-import { useCheckUser } from '../../hooks/useCheckUser.tsx';
-import Navigation from '../Navigation';
 import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import PageSkeleton from '@/components/PageSkeleton';
+import { useCheckUser } from '@/hooks/useCheckUser.tsx';
+import Navigation from '@/components/Navigation';
 
 function AppTemplate() {
   const user = useCheckUser();
