@@ -27,7 +27,7 @@ export class LocalStorageUtils {
   }
   switchMode(currentMode?: string) {
     const mode = this.get(LocalStorageKeys.mode);
-    if ((currentMode || mode) === LocalStorageKeys.darkMode) {
+    if ((currentMode || mode) === LocalStorageKeys.lightMode) {
       this.set(LocalStorageKeys.mode, LocalStorageKeys.darkMode);
       return LocalStorageKeys.darkMode;
     } else {
