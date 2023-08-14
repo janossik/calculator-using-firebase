@@ -1,13 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import { UserProvider } from '../../hooks/useUser.tsx';
-import { CssBaseline } from '@mui/material';
+import { ColorModeProvider } from '@/hooks/useColorMode.tsx';
 
 function MainTemplate() {
   return (
-    <UserProvider>
-      <CssBaseline />
-      <Outlet />
-    </UserProvider>
+    <ColorModeProvider>
+      <UserProvider>
+        <Outlet />
+      </UserProvider>
+    </ColorModeProvider>
   );
 }
 

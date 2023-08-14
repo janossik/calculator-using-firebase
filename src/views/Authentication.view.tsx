@@ -3,12 +3,13 @@ import { Navigate } from 'react-router-dom';
 import { Box, Button, Container, Paper, Stack, Typography } from '@mui/material';
 import { authUtils } from '../firebase/authentication';
 import Google from '@mui/icons-material/Google';
+import { localStorageUtils } from '@/helpers/localStorageUtils.ts';
 
 function AuthenticationView() {
   const { user } = useUser();
 
   if (user) {
-    const lastLocation = localStorage.getItem('lastLocation') || '/app';
+    const lastLocation = localStorageUtils.getLastLocation('/app');
     return <Navigate to={lastLocation} />;
   }
 

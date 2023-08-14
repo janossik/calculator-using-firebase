@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import PageSkeleton from '@/components/PageSkeleton';
 import { useCheckUser } from '@/hooks/useCheckUser.tsx';
 import Navigation from '@/components/Navigation';
+import { localStorageUtils } from '@/helpers/localStorageUtils.ts';
 
 function AppTemplate() {
   const user = useCheckUser();
@@ -10,7 +11,7 @@ function AppTemplate() {
 
   useEffect(() => {
     if (location.pathname === '/') return;
-    localStorage.setItem('lastLocation', location.pathname);
+    localStorageUtils.setLastLocation(location.pathname);
   }, [location]);
 
   if (!user) {
