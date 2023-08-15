@@ -1,16 +1,26 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import { Calculate, History, Home, More } from '@mui/icons-material';
 import SideBar from '@/components/Navigation/SideBar.tsx';
+import { localStorageUtils } from '@/helpers/localStorageUtils.ts';
 
 function Navigation() {
   const [path, setPath] = useState('/app');
   const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    const value = localStorage.getItem('lastLocation');
+    const value = localStorageUtils.getLastLocation('/app');
     value && setPath(value);
   }, []);
+
+  useEffect(() => {
+    //A more responsive solution will be needed in the future
+    if (location.pathname.includes('/app/calculator')) {
+      return setPath('/app/calculator');
+    }
+  }, [location]);
 
   const handleNavigate = (path: string) => {
     setPath(path);
