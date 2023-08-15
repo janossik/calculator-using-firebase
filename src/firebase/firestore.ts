@@ -34,14 +34,22 @@ class FirestoreUtils {
     return result.docs.map((doc) => doc.data());
   }
 
+  async getCollection<T extends firestore.DocumentData>(...pathSegments: string[]): Promise<firestore.QuerySnapshot<T, T>>;
+  async getCollection<T extends firestore.DocumentData>(arg: firestore.Query<T, T>): Promise<firestore.QuerySnapshot<T, T>>;
+  async getCollection<T extends firestore.DocumentData>(arg: firestore.Query<T, T> | string, ...pathSegments: string[]) {
+    if (typeof arg === 'string') {
+      return await firestore.getDocs<T, T>(this.getRefCollection(...pathSegments));
+    }
+    return await firestore.getDocs<T, T>(arg);
+  }
+
   async addDoc<T extends firestore.WithFieldValue<firestore.DocumentData>>(data: T, ...pathSegments: string[]) {
-    await firestore.addDoc<T, T>(this.getRefCollection(...pathSegments), data);
-    return data;
+    return await firestore.addDoc<T, T>(this.getRefCollection(...pathSegments), data);
   }
 
   async addDocAndSetState<T extends firestore.WithFieldValue<firestore.DocumentData>>(data: T, setState: (value: T) => void, ...pathSegments: string[]) {
     const result = await this.addDoc(data, ...pathSegments);
-    setState(result);
+    setState(data);
     return result;
   }
 
@@ -104,6 +112,23 @@ class FirestoreUtils {
       this._onErrorForOnSnapshot,
     );
   }
+
+  onSnapshotCollection<T extends firestore.DocumentData>(
+    onNext: (value: firestore.QuerySnapshot<T, T>) => void,
+    ...pathSegments: string[]
+  ): firestore.Unsubscribe;
+  onSnapshotCollection<T extends firestore.DocumentData>(onNext: (value: firestore.QuerySnapshot<T, T>) => void, arg: firestore.Query): firestore.Unsubscribe;
+  onSnapshotCollection<T extends firestore.DocumentData>(
+    onNext: (value: firestore.QuerySnapshot<T, T>) => void,
+    arg: string | firestore.Query<T, T>,
+    ...pathSegments: string[]
+  ) {
+    if (typeof arg === 'string') {
+      return firestore.onSnapshot<T, T>(this.getRefCollection(arg, ...pathSegments), onNext, this._onErrorForOnSnapshot);
+    }
+    return firestore.onSnapshot<T, T>(arg, onNext, this._onErrorForOnSnapshot);
+  }
+
   onSnapshotCollectionData<T extends firestore.DocumentData>(setState: (value: T[]) => void, ...pathSegments: string[]): firestore.Unsubscribe;
   onSnapshotCollectionData<T extends firestore.DocumentData>(setState: (value: T[]) => void, arg: firestore.Query): firestore.Unsubscribe;
   onSnapshotCollectionData<T extends firestore.DocumentData>(setState: (value: T[]) => void, arg: string | firestore.Query<T, T>, ...pathSegments: string[]) {
