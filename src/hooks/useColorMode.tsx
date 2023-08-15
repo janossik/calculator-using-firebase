@@ -8,7 +8,14 @@ export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 export function ColorModeProvider({ children }: { children: ReactElement }) {
   const [mode, setMode] = useState<'light' | 'dark'>(localStorageUtils.getMode());
 
-  const colorMode = useMemo(() => ({ toggleColorMode: () => setMode((prevMode) => localStorageUtils.switchMode(prevMode)) }), []);
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => localStorageUtils.switchMode(prevMode));
+      },
+    }),
+    [],
+  );
   const theme = useMemo(() => createTheme({ palette: { mode } }), [mode]);
 
   return (
