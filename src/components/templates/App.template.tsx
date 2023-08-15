@@ -4,6 +4,7 @@ import PageSkeleton from '@/components/PageSkeleton';
 import { useCheckUser } from '@/hooks/useCheckUser.tsx';
 import Navigation from '@/components/Navigation';
 import { localStorageUtils } from '@/helpers/localStorageUtils.ts';
+import { Box } from '@mui/material';
 
 function AppTemplate() {
   const user = useCheckUser();
@@ -19,10 +20,10 @@ function AppTemplate() {
   }
 
   return (
-    <>
+    <Box pb="60px">
       <Outlet />
       <Navigation />
-    </>
+    </Box>
   );
 }
 
