@@ -4,7 +4,7 @@ export interface Calculation {
   createdAt: Timestamp;
   updatedAt: Timestamp;
   author: string;
-  calculations: {
+  details: {
     firstNumber: number;
     secondNumber: number;
     result: number;

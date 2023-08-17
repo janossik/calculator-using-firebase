@@ -1,5 +1,5 @@
 import { logger, setGlobalOptions } from "firebase-functions/v2";
-import { onDocumentWritten } from "firebase-functions/v2/firestore";
+import { onDocumentWritten, onDocumentDeleted } from "firebase-functions/v2/firestore";
 import { getFirestore } from "firebase-admin/firestore";
 import { initializeApp } from "firebase-admin/app";
 
@@ -19,6 +19,14 @@ export const saveToCommunication = onDocumentWritten("users/{userId}/calculation
   }
   try {
     await db.doc(`communications/${event.params.userId}-${event.params.docId}`).set(data, { merge: true });
+  } catch (e) {
+    logger.error(e, { structuredData: true });
+  }
+});
+
+export const deleteFromCommunication = onDocumentDeleted("users/{userId}/calculations/{docId}", async (event) => {
+  try {
+    await db.doc(`communications/${event.params.userId}-${event.params.docId}`).delete();
   } catch (e) {
     logger.error(e, { structuredData: true });
   }

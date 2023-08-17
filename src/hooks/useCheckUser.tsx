@@ -14,6 +14,5 @@ export function useCheckUser() {
       navigate('/');
     }, 1000);
   }, [navigate, user]);
-
   return user;
 }

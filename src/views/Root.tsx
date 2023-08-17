@@ -29,6 +29,14 @@ const router = createBrowserRouter([
             element: <CalculatorView />,
           },
           {
+            path: 'calculator/:id',
+            element: <CalculatorView />,
+          },
+          {
+            path: 'calculator/:uid/:id',
+            element: <CalculatorView />,
+          },
+          {
             path: 'history',
             element: <HistoryView />,
           },
