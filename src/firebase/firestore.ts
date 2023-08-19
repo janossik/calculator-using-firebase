@@ -1,5 +1,6 @@
 import * as firestore from 'firebase/firestore';
-import { db } from './index.ts';
+import { app } from './index.ts';
+export const db = firestore.getFirestore(app);
 
 class FirestoreUtils {
   db: firestore.Firestore;
