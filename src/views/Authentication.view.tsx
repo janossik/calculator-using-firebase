@@ -4,9 +4,11 @@ import { Box, Button, Container, Paper, Stack, Typography } from '@mui/material'
 import { authUtils } from '../firebase/authentication';
 import Google from '@mui/icons-material/Google';
 import { localStorageUtils } from '@/helpers/localStorageUtils.ts';
+import { useAlert } from '@/hooks/useAlert';
 
 function AuthenticationView() {
   const { user } = useUser();
+  const { handleAlert } = useAlert();
 
   if (user) {
     const lastLocation = localStorageUtils.getLastLocation('/app');
@@ -30,7 +32,18 @@ function AuthenticationView() {
               Sign in to use the app
             </Typography>
             <Box>
-              <Button variant="contained" onClick={async () => await authUtils.signInWithGoogle()} startIcon={<Google />}>
+              <Button
+                variant="contained"
+                onClick={async () => {
+                  try {
+                    await authUtils.signInWithGoogle();
+                  } catch (error) {
+                    handleAlert({ type: 'error', message: "Couldn't sign in with google, you can write me an email at marcinczaniecki@proton.me" });
+                    console.error(error);
+                  }
+                }}
+                startIcon={<Google />}
+              >
                 Sign in with google
               </Button>
             </Box>

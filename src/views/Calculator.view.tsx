@@ -7,8 +7,11 @@ import { useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CustomModal from '@/components/CustomModal';
 import { useUser } from '@/hooks/useUser.tsx';
+import { useAlert } from '@/hooks/useAlert';
 
 function CalculatorView() {
+  const { handleAlert } = useAlert();
+
   const params = useParams();
   const { user } = useUser();
   const uid = params.uid || user!.uid;
@@ -18,23 +21,33 @@ function CalculatorView() {
 
   const removeCalculation = async () => {
     if (!params?.id) {
-      throw new Error('No calculation id provided');
+      return handleAlert({ type: 'error', message: 'No calculation id provided', timeout: 3000 });
     }
-    await deleteCalculation(params.id);
-    navigate('/app/calculator');
-    handleClose();
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-    }, 3000);
+    try {
+      await deleteCalculation(params.id);
+      navigate('/app/calculator');
+      handleClose();
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    } catch (error) {
+      handleAlert({ type: 'error', message: 'Something went wrong, please try again later or you can contact us', timeout: 3000 });
+      console.error(error);
+    }
   };
 
   const createOrUpdateCalculation = async (props: { firstNumber: number; secondNumber: number; operation: string; result: number }) => {
-    if (!params.id) {
-      const ref = await create(props);
-      return navigate(`/app/calculator/${ref.id}`);
+    try {
+      if (!params.id) {
+        const ref = await create(props);
+        return navigate(`/app/calculator/${ref.id}`);
+      }
+      await update({ docId: params.id, ...props });
+    } catch (error) {
+      handleAlert({ type: 'error', message: 'Something went wrong, please try again later or you can contact us', timeout: 3000 });
+      console.error(error);
     }
-    await update({ docId: params.id, ...props });
   };
   const [open, setOpen] = useState(false);
   const handleOpen = () => {

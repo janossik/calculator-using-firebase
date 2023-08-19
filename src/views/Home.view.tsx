@@ -6,14 +6,19 @@ import { useUser } from '@/hooks/useUser.tsx';
 import { Link } from 'react-router-dom';
 function HomeView() {
   const { user } = useUser();
-  const { calculations, isAllLoaded, loadMore, last } = useCalculationData('users', user!.uid, 'calculations');
+  const { calculations, isAllLoaded, loadMore, last, isLoading } = useCalculationData('users', user!.uid, 'calculations');
   return (
     <Stack spacing={2} p={1}>
       <Typography variant="h1" fontSize="xx-large">
         Recent calculations
       </Typography>
-      <CardCalculationMesh calculations={calculations} isAllLoaded={isAllLoaded} clickLoadMore={async () => await loadMore(startAfter(last))} />
-      {calculations.length === 0 && (
+      <CardCalculationMesh
+        isLoading={isLoading}
+        calculations={calculations}
+        isAllLoaded={isAllLoaded}
+        clickLoadMore={async () => await loadMore(startAfter(last))}
+      />
+      {calculations.length === 0 && !isLoading && (
         <Paper>
           <Box p={1}>
             <Typography fontSize="large">You don&apos;t have any calculations yet.</Typography>

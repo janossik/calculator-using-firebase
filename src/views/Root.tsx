@@ -1,16 +1,21 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AppTemplate from '@/components/templates/App.template.tsx';
-import HomeView from '@/views/Home.view.tsx';
-import CalculatorView from '@/views/Calculator.view.tsx';
-import HistoryView from '@/views/History.view.tsx';
-import NotFoundView from '@/views/NotFound.view.tsx';
+import { lazy } from 'react';
 import MainTemplate from '@/components/templates/Main.template.tsx';
-import AuthenticationView from '@/views/Authentication.view.tsx';
-
+const AppTemplate = lazy(() => import('@/components/templates/App.template.tsx'));
+const HomeView = lazy(() => import('@/views/Home.view.tsx'));
+const CalculatorView = lazy(() => import('@/views/Calculator.view.tsx'));
+const HistoryView = lazy(() => import('@/views/History.view.tsx'));
+const NotFoundView = lazy(() => import('@/views/NotFound.view.tsx'));
+const AuthenticationView = lazy(() => import('@/views/Authentication.view.tsx'));
+import { AlertProvider } from '@/hooks/useAlert';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainTemplate />,
+    element: (
+      <AlertProvider>
+        <MainTemplate />
+      </AlertProvider>
+    ),
     children: [
       {
         path: '/',
