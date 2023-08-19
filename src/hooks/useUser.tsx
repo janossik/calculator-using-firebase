@@ -1,6 +1,7 @@
 import { User } from 'firebase/auth';
 import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
 import { authUtils } from '@/firebase/authentication';
+import { useAlert } from '@/hooks/useAlert';
 
 interface UserContextProps {
   user: User | null;
@@ -14,13 +15,21 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<UserContextProps['user']>(null);
-
+  const { handleAlert } = useAlert();
   useEffect(() => {
-    const unsubscribe = authUtils.onAuthStateChanged(setUser);
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    try {
+      const unsubscribe = authUtils.onAuthStateChanged(setUser);
+      return () => {
+        unsubscribe();
+      };
+    } catch (error) {
+      handleAlert({
+        type: 'error',
+        message: "Can't load user",
+        timeout: 3000,
+      });
+    }
+  }, [handleAlert]);
 
   return <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>;
 };

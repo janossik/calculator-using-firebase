@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Calculation } from '@/types/Calculation';
 import { firestoreUtils } from '@/firebase/firestore.ts';
 import { arrayUnion, Timestamp } from 'firebase/firestore';
+import { useAlert } from '@/hooks/useAlert';
 
 export const useCalculation = () => {
   const { user } = useUser();
@@ -11,6 +12,7 @@ export const useCalculation = () => {
   const uid = params.uid || user!.uid;
   const canEdit = user && user.uid === uid;
   const [details, setDetails] = useState<Calculation['details'][0][]>([]);
+  const { handleAlert } = useAlert();
 
   useEffect(() => {
     if (!params.id) setDetails([]);
@@ -27,7 +29,7 @@ export const useCalculation = () => {
       'calculations',
       params.id,
     );
-  }, [params.id, uid, user]);
+  }, [handleAlert, params.id, uid, user]);
 
   const create = async (props: { firstNumber: number; secondNumber: number; operation: string; result: number }) => {
     if (!canEdit) {
@@ -61,7 +63,6 @@ export const useCalculation = () => {
       docId,
     );
   };
-  console.log('co');
   const deleteCalculation = async (docId: string) => {
     if (!user) return;
     await firestoreUtils.deleteDocument('users', uid, 'calculations', docId);
