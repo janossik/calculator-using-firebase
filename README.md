@@ -1,27 +1,19 @@
-# React + TypeScript + Vite
+# Calculator-using-firebase
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This app is a simple calculator app that allows you to perform basic arithmetic operations. It also has a history feature that allows you to see your previous calculations. Used technologies: React, TypeScript, Firebase, React Router, Material UI and more. If you want to check the app, you can find it [here](https://hr-me-calculator.web.app)
 
-Currently, two official plugins are available:
+Unfortunately, I didn't have time to write tests for this app, but I will definitely do it in the future.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+if you want to run this app locally, you need to do the following:
 
-## Expanding the ESLint configuration
+1. Clone this repository
+2. Run `npm install` in your terminal
+3. Create a firebase project and add a web app to it (functions working only on the blaze plan :c)
+4. Add environment variables to your project. You can find them in the .env.example file
+5. Run `npm run dev` in your terminal
+6. Enjoy the app
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+If you want to deploy the app, you need to do the following:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. If you want to deploy the app, run `npm run build` and then `firebase deploy`
+2. Enjoy the app online
